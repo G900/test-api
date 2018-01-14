@@ -44,18 +44,6 @@ public class MovieServiceTest {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
 
-    @Before
-    public void insert() {
-        prepareData();
-    }
-
-    @After
-    public void cleanUp() {
-
-        actorRepository.deleteAll();
-        directorRepository.deleteAll();
-        movieRepository.deleteAll();
-    }
 
     @Test
     public void should_throw_validation_errors() throws Exception {
@@ -205,7 +193,7 @@ public class MovieServiceTest {
         Assert.assertEquals(2, movieList1.size());
         AtomicInteger count = new AtomicInteger();
         movieList1.stream().forEach(x -> {
-            if (x.getName() == "The Green Mile" || x.getName() == "The Shawshank Redemption") {
+            if (x.getName().equals("The Green Mile" )|| x.getName().equals("The Shawshank Redemption")) {
                 count.incrementAndGet();
             }
         });
