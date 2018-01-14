@@ -44,7 +44,7 @@ public class GetMoviesByParametersSpecification implements Specification<MovieEn
 
         if (!isNull(name)) {
             Expression<String> nameExpression = root.get("name");
-            predicates.add(likeIgnoreCase(criteriaBuilder, nameExpression, name));
+            predicates.add(likeIgnoreCase(criteriaBuilder, nameExpression, name.replace("-", " ")));
         }
         if (!isNull(year)) {
             Expression<String> yearExpression = root.get("year");
@@ -58,7 +58,7 @@ public class GetMoviesByParametersSpecification implements Specification<MovieEn
         if (!isNull(director)) {
             Join<MovieEntity, DirectorEntity> directorJoinExpression = root.join("director", JoinType.INNER);
             Expression<String> directorExpression = directorJoinExpression.get("name");
-            predicates.add(likeIgnoreCase(criteriaBuilder, directorExpression, director));
+            predicates.add(likeIgnoreCase(criteriaBuilder, directorExpression, director.replace("-", " ")));
         }
 
 
