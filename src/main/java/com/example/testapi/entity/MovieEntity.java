@@ -2,10 +2,11 @@ package com.example.testapi.entity;
 
 import com.example.testapi.helper.Genre;
 import com.example.testapi.helper.MpaaRating;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,38 +18,42 @@ import java.util.UUID;
 public class MovieEntity {
 
     @Id
-    @Type(type = "uuid-custom")
+    @GeneratedValue
     @Column(name = "Id")
-    private UUID id;
+    private Long id;
 
-    @Column(name = "MpaaRating")
+    @Column(name = "Name")
+    private String name;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "MpaaRating")
     private MpaaRating mpaaRating;
 
     @Column(name = "Duration")
-    private String duration;
+    private Long duration;
 
     @Column(name = "Genres")
-    @Enumerated(EnumType.STRING)
-    private List<Genre> genres;
+    private String genres ;
 
-    @Column(name = "PremiereDate")
-    private Date premiereDate;
+    @Column(name = "Year")
+    private String year;
 
-    @Column(name = "Director")
-    private String director;
 
-    @Column(name = "Writer")
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Director")
+    private DirectorEntity director;
 
-    @Column(name = "Stars")
-    private List<String> stars;
 
-    public UUID getId() {
+    @Column(name = "Actors")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ActorId")
+    private List<ActorEntity> actors;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,53 +65,55 @@ public class MovieEntity {
         this.mpaaRating = mpaaRating;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
-    public List<Genre> getGenres() {
+    public String getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(String genres) {
         this.genres = genres;
     }
 
-    public Date getPremiereDate() {
-        return premiereDate;
+    public String getYear() {
+        return year;
     }
 
-    public void setPremiereDate(Date premiereDate) {
-        this.premiereDate = premiereDate;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-    public String getDirector() {
+    public DirectorEntity getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(DirectorEntity director) {
         this.director = director;
     }
 
-    public String getWriter() {
-        return writer;
+    public List<ActorEntity> getActors() {
+        return actors;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setActors(List<ActorEntity>actors) {
+        this.actors = actors;
     }
 
-    public List<String> getStars() {
-        return stars;
+    public String getName() {
+        return name;
     }
 
-    public void setStars(List<String> stars) {
-        this.stars = stars;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public MovieEntity(){}
 
 
 }
